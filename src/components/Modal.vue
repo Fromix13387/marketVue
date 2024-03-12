@@ -26,6 +26,7 @@
       align-items: center;
       justify-content: center;
       .modalWindow {
+        position: relative;
           min-width: 350px;
           min-height: 200px;
           background-color: $bgColor;

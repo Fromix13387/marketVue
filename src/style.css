@@ -1,3 +1,8 @@
+:root {
+  --slider-connect-bg: #cb5656;
+  --slider-tooltip-bg: #cb5656;
+  --slider-handle-ring-color: rgba(203, 86, 86, 0.18);
+}
 * {
   font-family: Arial;
   padding: 0;

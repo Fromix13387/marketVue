@@ -59,7 +59,6 @@ import Modal from "./Modal.vue";
         }
     }
     button {
-        //margin: 10px auto 0 auto;
         width: fit-content;
         padding: 8px 25px;
         background-color: $dopColor;

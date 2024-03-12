@@ -1,0 +1,6 @@
+{
+    "require": {
+        "siriusphp/validation": "^4.0",
+      "ext-pdo": "*"
+    }
+}

@@ -1,26 +1,37 @@
 <?php
+
 header('Access-Control-Allow-Origin: *');
-include_once "classes/Db.php";
-include_once "classes/Printer.php";
+
+require 'vendor/autoload.php';
+require 'classes/Db.php';
+require 'classes/User.php';
+require 'classes/CustomError.php';
+require 'classes/Printer.php';
 
 
+echo isset($_POST['method']) ? json_encode(main()) : CustomError::errorMethodNotFound();
 
-
-
-echo json_encode(main());
-
-function main() {
+function main(): false|array|string|null
+{
     $method = $_POST['method'];
     $printer = new Printer(new Db);
+    $user = new User(new Db);
 
     if ($method === 'getPrinters') {
-         return $printer->getPrinters($_POST['search'] !== 'undefined' ? $_POST['search'] : '');
+        $search = $_POST['search'] !== 'undefined' ? $_POST['search'] : '';
+        $min = $_POST['min'];
+        $max = $_POST['max'];
+         return $printer->getPrinters($search, $min,$max);
     }
     else if ($method === 'getPrinter') {
         return $printer->getPrinter($_POST['id']);
     }
+    else if ($method === 'registration') {
+        if ($_POST['password'] !== $_POST['password_confirm']) return CustomError::errorPasswordConfirm();
+        return CustomError::errorValidation($_POST) ??  $user->registration($_POST);
+    }
     else {
-        return "Error";
+        return ;
     }
 }
 
