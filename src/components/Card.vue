@@ -1,4 +1,8 @@
 <script setup>
+import {User, visibleModal} from "../main.js";
+  import Button from "./Button.vue";
+import {addBasket} from "../assets/js/Basket.js";
+
   const props = defineProps({
       data: Array
   })
@@ -15,7 +19,8 @@
           </div>
           <div class="price">
               <h3>{{props.data.price}} ₽</h3>
-              <router-link :to="'/printer/'+ props.data.id">Купить</router-link>
+              <Button v-if="User.auth && data.length !== 0" @click="addBasket(props.data)">В корзину</Button>
+              <Button v-else @click="visibleModal = 'authorization'">Купить</Button>
           </div>
       </div>
   </div>
@@ -60,19 +65,8 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
-
-          a {
-              padding: 5px 25px;
-              border: none;
-              background-color: $dopColor;
-              color: white;
-              border-radius: 10px;
-              font-size: 15px;
-              cursor: pointer;
-            transition: background-color 0.3s ease;
-            &:hover {
-              background-color: #d92d2d;
-            }
+          > button {
+            margin: 0;
           }
       }
   }

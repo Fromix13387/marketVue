@@ -1,6 +1,9 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import {Fetch} from "../api/Fetch.js";
+import {User, visibleModal} from "../main.js";
+import Button from "../components/Button.vue";
+import {addBasket, basket} from "../assets/js/Basket.js";
 
 const data = ref({})
   const props = defineProps({
@@ -55,6 +58,9 @@ const data = ref({})
                   </tr>
               </table>
           </div>
+
+          <Button v-if = "User.auth && data.length !== 0" @click="basket.push(data)">В корзину</Button>
+          <Button v-else @click="visibleModal = 'authorization'">Купить</Button>
       </div>
   </div>
 </template>
@@ -90,6 +96,10 @@ const data = ref({})
       .gray {
           background-color: #efeded;
       }
+    button {
+         min-width: 200px;
+         width: 30%;
+    }
   }
   @media (width < 750px) {
       .CardInfo {

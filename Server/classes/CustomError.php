@@ -18,16 +18,45 @@ class CustomError
             'error_code' => 1
         ];
     }
-    public static function errorUnknown()
+    public static function errorUnknown(): array
     {
         return [
             'error_message' => 'Unknown Error',
             'error_code' => 0
         ];
     }
+    public static function errorUsername($username): array
+    {
+        return [
+            'error_message' => "$username уже зарегистрирован",
+            'error_code' => 4
+        ];
+    }
+    public static function errorEmail(): array
+    {
+        return [
+            'error_message' => "Данная почта уже использовалась",
+            'error_code' => 5
+        ];
+    }
+
+    public static function errorAuthorization(): array
+    {
+        return [
+            'error_message' => 'Неверно имя пользователя или пароль',
+            'error_code' => 6
+        ];
+    }
+    public static function errorExit(): array
+    {
+        return [
+            'error_message' => 'Пользователь не в системе',
+            'error_code' => 7
+        ];
+    }
     public static function errorValidation($data): null|array
     {
-        $err = CustomError::validateByRegistration($_POST);
+        $err = CustomError::validateByRegistration($data);
         return count($err) !== 0 ? [
             'error_message' => $err[0],
             'error_code' => 3

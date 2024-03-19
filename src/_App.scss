@@ -1,2 +1,11 @@
 $bgColor: #314669;
 $dopColor: #cb5656;
+
+.reg,.auth { // стили для кнопок перехода
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
+  &:hover {
+    text-decoration: underline;
+  }
+}

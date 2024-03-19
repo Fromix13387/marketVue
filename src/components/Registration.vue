@@ -3,6 +3,8 @@ import Modal from "./Modal.vue";
 import {ref} from "vue";
 import Message from "./Message.vue";
 import {Fetch} from "../api/Fetch.js";
+import {User, visibleModal} from "../main.js";
+import Button from "./Button.vue";
 
 const username = ref('')
 const fullname = ref('')
@@ -18,15 +20,10 @@ const setVisible = (data) => {
   text.value = data[0]
   type.value = data[1]
   visible.value = true
-  setTimeout(() => visible.value = false,5000)
+  setTimeout(() => visible.value = false,20000)
 }
 async function registration() {
-  // if (!username.value) setVisible(['Имя пользователя не введено!', 'error'])
-  // else if (!fullname.value) setVisible(['ФИО не введено!', 'error'])
-  // else if (!email.value) setVisible(['Почта не введена!', 'error'])
-  // else if (!password.value) setVisible(['Пароль не введён!', 'error'])
-  // else if (password.value !== password_confirm.value) setVisible(['Пароли не совпадают', 'error'])
-    let res = await Fetch({
+    const res = await Fetch({
       method: 'registration',
       username: username.value,
       fullname: fullname.value,
@@ -34,7 +31,10 @@ async function registration() {
       password: password.value,
       password_confirm: password_confirm.value
     })
-    if (res.error_code) setVisible([res.error_message, 'error'])
+    if (res.error_code) return setVisible([res.error_message, 'error'])
+    localStorage.setItem('token', res.token)
+    User.value = {...res, auth: true}
+    setVisible([res.message, 'success'])
 }
 
 
@@ -51,9 +51,10 @@ async function registration() {
               <div><input v-model="password" placeholder="Пароль" type="password"></div>
               <div><input v-model="password_confirm" placeholder="Подтверждение пароля" type="password"></div>
           </div>
-          <button @click="registration" >Зарегестрироваться</button>
+        <Button  @click="registration">Зарегестрироваться</Button>
+          <p @click="visibleModal = 'authorization'"  class="auth">Войти</p>
       </div>
-    <Message v-if="visible"  :text="text" :type="type"/>
+    <Message :visible="visible"  :text="text" :type="type"/>
 
   </Modal>
 
@@ -72,6 +73,7 @@ async function registration() {
       width: 100%;
     }
     .registration {
+        padding: 35px;
         position: relative;
         display: flex;
         flex-direction: column;
@@ -118,25 +120,5 @@ async function registration() {
             }
 
         }
-
-        button {
-            margin: 20px auto 0 auto;
-            width: fit-content;
-            padding: 8px 15px;
-            background-color: $dopColor;
-            border: none;
-            color: white;
-            font-size: 15px;
-            border-radius: 10px;
-            transition: background-color 0.3s ease, box-shadow 0.05s ease;
-            cursor: pointer;
-            &:hover {
-                background-color: #f55050;
-            }
-            &:active {
-                box-shadow: 0 0 5px white;
-            }
-        }
-
     }
 </style>

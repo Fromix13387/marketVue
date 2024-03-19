@@ -1,7 +1,18 @@
 <script setup>
 
 import Header from "./components/Header.vue";
+import {watchEffect} from "vue";
+import {Fetch} from "./api/Fetch.js";
+import {User} from "./main.js";
 
+const checkAuth = async () => {
+  const res = await Fetch({method: 'checkAuth'})
+  if (res.token) {
+    localStorage.setItem('token', res.token)
+    User.value = {...res, auth: true}
+  }
+}
+watchEffect(checkAuth, [])
 </script>
 
 <template>
@@ -26,11 +37,14 @@ import Header from "./components/Header.vue";
     min-height: 85vh;
 }
 .footer {
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 15px;
     color: white;
     background-color: $bgColor;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 70px;
+    min-height: 70px;
 }
 </style>

@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import {createApp, ref} from 'vue'
 import * as VueRouter from 'vue-router'
 import './style.css'
 import App from './App.vue'
@@ -7,6 +7,10 @@ import Catalog from "./pages/Catalog.vue";
 import Home from "./pages/Home.vue";
 import Contact from "./pages/Contact.vue";
 import CardInfo from "./pages/CardInfo.vue";
+
+export const defaultUrl = "http://localhost:4000/"
+export const User = ref({auth: false})
+export const visibleModal = ref('')
 
 
 

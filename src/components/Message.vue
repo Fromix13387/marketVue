@@ -1,13 +1,14 @@
 <script setup>
   const props = defineProps({
     text: String,
-    type: String
+    type: String,
+    visible: Boolean
   })
 </script>
 
 <template>
-  <Transition>
-    <div class="Message">
+  <Transition name="message" >
+    <div class="Message" v-show="props.visible">
       <p :class="props.type">{{props.text}}</p>
     </div>
   </Transition>
@@ -16,34 +17,41 @@
 <style scoped lang="scss">
 @import "../App";
 .Message {
-  text-align: center;
-  top:8px;
-  left: 5px;
+  box-shadow: inset 0 0 99px $bgColor;
+  bottom:8px;
+  z-index: -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  right: 0;
   border-radius: 20px;
   position: absolute;
-  min-width: 100%;
+  padding: 5px 15px;
   height: 50px;
   font-size: 15px;
+  transform: translate3d(0px, 60px, 0);
 }
   .success {
     color: greenyellow;
   }
   .error {
-    color: #ff0202;
+    color: rgb(246, 0, 47);
+    font-weight: bold;
+    letter-spacing: 0.3px;
   }
-  .modal-enter-active .modalWindow  {
-    animation: modalOpen .6s;
+  .message-enter-active  {
+    animation: messageOpen .6s;
   }
-  .modal-leave-active .modalWindow {
-    animation: modalOpen .6s reverse;
+  .message-leave-active{
+    animation: messageOpen .6s reverse;
   }
-
-  @keyframes modalOpen {
+  @keyframes messageOpen {
     from {
-      transform: scale(0);
+      transform: translate3d(0, 0, 0);
     }
     to {
-      transform: scale(1);
+      transform: translate3d(0px, 60px, 0);
     }
   }
 </style>

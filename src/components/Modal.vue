@@ -1,13 +1,11 @@
 <script setup>
 </script>
 <template>
-  <Transition name="modal" :duration="500">
-      <div @click="$emit('close')" class="modal">
-          <div @click.stop.prevent class="modalWindow">
-              <slot/>
-          </div>
-      </div>
-  </Transition>
+    <div @click="$emit('close')" class="modal">
+        <div @click.stop.prevent class="modalWindow">
+            <slot/>
+        </div>
+    </div>
 </template>
 
 
@@ -26,11 +24,10 @@
       align-items: center;
       justify-content: center;
       .modalWindow {
-        position: relative;
+          position: relative;
           min-width: 350px;
           min-height: 200px;
           background-color: $bgColor;
-          padding: 35px;
           border-radius: 15px;
       }
   }
@@ -39,7 +36,7 @@
       animation: modalOpen .6s;
   }
   .modal-leave-active .modalWindow {
-      animation: modalOpen .6s reverse;
+      animation: modalClose 0.8s;
   }
 
   @keyframes modalOpen {
@@ -50,4 +47,12 @@
        transform: scale(1);
      }
   }
+@keyframes modalClose {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-999px);;
+  }
+}
 </style>
