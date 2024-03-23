@@ -1,7 +1,9 @@
 <script setup>
 import {User, visibleModal} from "../main.js";
-  import Button from "./Button.vue";
-import {addBasket} from "../assets/js/Basket.js";
+import Button from "./Button.vue";
+import basket from "../assets/js/Basket.js";
+import Counter from "./Counter.vue";
+
 
   const props = defineProps({
       data: Array
@@ -9,7 +11,7 @@ import {addBasket} from "../assets/js/Basket.js";
 </script>
 
 <template>
-  <div class="card">
+  <div :class="[{active: User.auth && !!basket.getCountProduct(props.data.id)}, 'card']">
 
       <img :src="'src/assets/product/' + props.data.image" alt="">
       <div>
@@ -19,7 +21,8 @@ import {addBasket} from "../assets/js/Basket.js";
           </div>
           <div class="price">
               <h3>{{props.data.price}} ₽</h3>
-              <Button v-if="User.auth && data.length !== 0" @click="addBasket(props.data)">В корзину</Button>
+              <Counter v-if="User.auth && basket.getCountProduct(props.data.id) !== 0" :id="props.data.id"/>
+              <Button v-else-if="User.auth && data.length !== 0" @click="basket.addBasket(props.data)">В корзину</Button>
               <Button v-else @click="visibleModal = 'authorization'">Купить</Button>
           </div>
       </div>
@@ -69,5 +72,9 @@ import {addBasket} from "../assets/js/Basket.js";
             margin: 0;
           }
       }
+
+  }
+  .active {
+    background-color: rgba(203, 86, 86, 0.21);
   }
 </style>

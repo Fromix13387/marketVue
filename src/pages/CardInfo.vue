@@ -3,7 +3,8 @@ import {onMounted, ref} from "vue";
 import {Fetch} from "../api/Fetch.js";
 import {User, visibleModal} from "../main.js";
 import Button from "../components/Button.vue";
-import {addBasket, basket} from "../assets/js/Basket.js";
+import basket from "../assets/js/Basket.js";
+import Counter from "../components/Counter.vue";
 
 const data = ref({})
   const props = defineProps({
@@ -58,8 +59,8 @@ const data = ref({})
                   </tr>
               </table>
           </div>
-
-          <Button v-if = "User.auth && data.length !== 0" @click="basket.push(data)">В корзину</Button>
+          <Counter v-if="User.auth && basket.getCountProduct(props.id) !== 0" :id="props.id"/>
+          <Button v-else-if = "User.auth && data.length !== 0" @click="basket.addBasket(data)">В корзину</Button>
           <Button v-else @click="visibleModal = 'authorization'">Купить</Button>
       </div>
   </div>

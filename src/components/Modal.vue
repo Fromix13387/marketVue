@@ -1,8 +1,8 @@
 <script setup>
 </script>
 <template>
-    <div @click="$emit('close')" class="modal">
-        <div @click.stop.prevent class="modalWindow">
+    <div @click.self="$emit('close')" class="modal">
+        <div  class="modalWindow">
             <slot/>
         </div>
     </div>
@@ -52,7 +52,22 @@
     transform: translateY(0);
   }
   to {
-    transform: translateY(-999px);;
+    transform: translateY(-999px);
+  }
+}
+
+.confirm-enter-active .modalWindow {
+  animation: openConfirm 0.8s;
+}
+.confirm-leave-active .modalWindow {
+  animation: openConfirm 0.5s reverse;
+}
+@keyframes openConfirm {
+  from {
+    transform:  translateY(-999px);
+  }
+  to {
+    transform: translateY(0);
   }
 }
 </style>

@@ -2,11 +2,11 @@
 
 import {User} from "../main.js";
 import {Fetch} from "../api/Fetch.js";
+const emit = defineEmits(['close'])
 
 
 async function exit() {
   const res = await Fetch({method: 'exit'})
-
   console.log(res)
   if (res.answer === true) User.value = {auth: false}
 
@@ -19,20 +19,21 @@ async function exit() {
     <hr>
     <div class="profile-content">
 
-      <p>Мой профиль</p>
-      <p>Настройки профиля</p>
-      <p>Корзина</p>
-      <p>История покупок</p>
+      <router-link @click="emit('close')" to="">Мой профиль</router-link>
+      <router-link @click="emit('close')" to="">Настройки профиля</router-link>
+      <router-link @click="emit('close')" to="/Basket">Корзина</router-link>
+      <router-link @click="emit('close')" to="">История покупок</router-link>
     </div>
     <hr>
     <div class="profile-content">
-      <p @click="exit">Выйти</p>
+      <router-link to="" @click="exit">Выйти</router-link>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 @import "../App";
+
   .modalProfile {
     cursor: auto;
     position: absolute;
@@ -57,7 +58,10 @@ async function exit() {
       padding: 3px 0;
       font-size: 15px;
       color: #e8e7e7;
-      > p {
+      display: flex;
+      flex-direction: column;
+      > a {
+        text-decoration: none;
         transition: background-color 0.2s ease;
         cursor: pointer;
         padding: 7px 15px;

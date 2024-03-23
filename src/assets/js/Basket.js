@@ -1,30 +1,37 @@
-const basket = new Proxy(JSON.parse(localStorage.getItem('basket')) ?? [], {
-    set(target, prop, newValue, receiver) {
-        if (typeof newValue === 'object'){
-            console.log(receiver)
-            target[prop] = newValue
-            localStorage.setItem('basket', JSON.stringify(receiver))
-            return true
-        }
-        return false
-    },
-    defineProperty(target, prop, attributes) {
-        delete target[prop]
-        localStorage.setItem('basket', JSON.stringify(attributes))
+import {ref} from "vue";
+
+class Basket {
+    basket = JSON.parse(localStorage.getItem('basket')) ?? []
+
+    addBasket(product) {
+        if (typeof product !== 'object') product = {}
+        this.basket.push(product)
+        localStorage.setItem('basket', JSON.stringify(this.basket))
         return true
     }
-})
+    removeProduct(id) {
+        if (this.getCountProduct(id) !== 0) {
+            this.basket.splice(this.basket.indexOf(this.getProduct(id)[0]), 1)
+            localStorage.setItem('basket', JSON.stringify(this.basket))
+        }
+    }
+    deleteProduct(id) {
+        this.basket = this.basket.filter(el => el.id !== +id)
+        localStorage.setItem('basket', JSON.stringify(this.basket))
+    }
+    getProduct(id) {
+        return this.basket.filter(el => el.id === +id)
+    }
+    getCountProduct(id) {
+        return this.getProduct(id).length
+    }
+    getAllSumProducts() {
+        return this.basket.reduce((acc,el) => acc + +el.price, 0)
+    }
+    clear() {
 
-
-const addBasket = (product) => {
-    console.log(product)
-    const data = JSON.parse(localStorage.getItem('basket')) ?? []
-    localStorage.setItem('basket', [...data, product].toString())
+    }
 }
-const removeBasket = (product) => {
+const basket = ref(new Basket())
 
-}
-
-export {
-    basket, removeBasket, addBasket
-}
+export default basket

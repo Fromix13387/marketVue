@@ -6,7 +6,7 @@ import {onBeforeRouteUpdate} from "vue-router";
 import Slider from '@vueform/slider'
 
 const data = ref([])
-const value = ref([0,50000])
+const value = ref([0,70000])
 async function getData([min,max], search) {
     data.value = await Fetch({method: 'getPrinters', search, min, max})
 }
@@ -28,7 +28,7 @@ watchEffect(() => {
       </div>
       <div class="filter">
         <div class="price">
-          <Slider class="slider" :tooltips="false" :max="50000" v-model="value" />
+          <Slider class="slider" :tooltips="false" :max="70000" v-model="value" />
           <div class="price-input">
             <input v-model="value[0]" type="number" placeholder="min">
             <input v-model="value[1]" type="number" placeholder="max">

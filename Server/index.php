@@ -51,6 +51,12 @@ function main(): false|array|string|null
         session_regenerate_id();
         return [...$user->getDataUser($data), 'token' => $data['username'].'-'.session_id()];
     }
+    else if ($method === 'checkPassword' && $auth) {
+        $password = $_POST['password'] ?? '';
+        $data = $user->getUser($_SESSION['login_username']);
+        $keyApp = require __DIR__ . '/config/keyApp.php';
+        return ['password' => $data && password_verify($password.$keyApp, $data['password'] ?? '')];
+    }
     else if ($method === 'exit') {
         if (!$auth) return CustomError::errorExit();
         return ['answer' => session_destroy()];

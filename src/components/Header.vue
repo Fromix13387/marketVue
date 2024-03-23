@@ -45,7 +45,7 @@ function change() {
               <img v-else :src="defaultUrl+'src/imageUser/default.png'" alt="">
 
               <Transition name="profile">
-                <ModalProfile v-show="visibleProfile"/>
+                <ModalProfile @close="visibleProfile = false" v-show="visibleProfile"/>
               </Transition>
             </div>
             <div v-else>
@@ -63,13 +63,11 @@ function change() {
 
 </template>
 
-
-
 <style scoped lang="scss">
 @import "https://fonts.fontstorage.com/import/abeezee.css";
 @import "../App";
-//  Profile animation styles
 
+//  Profile animation styles
 .profile-enter-active {
   animation: modalProfile 1s;
 }
@@ -92,7 +90,6 @@ function change() {
         letter-spacing: 1.2px;
         color: white;
     }
-
     padding: 5px;
     position: sticky;
     top: 0;

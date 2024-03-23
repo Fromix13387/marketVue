@@ -7,6 +7,8 @@ import Catalog from "./pages/Catalog.vue";
 import Home from "./pages/Home.vue";
 import Contact from "./pages/Contact.vue";
 import CardInfo from "./pages/CardInfo.vue";
+import Basket from "./pages/Basket.vue";
+
 
 export const defaultUrl = "http://localhost:4000/"
 export const User = ref({auth: false})
@@ -37,6 +39,10 @@ const router = VueRouter.createRouter({
             path: '/printer/:id',
             component: CardInfo,
             props: true
+        },
+        {
+            path: '/Basket',
+            component: Basket,
         }
     ]
 })

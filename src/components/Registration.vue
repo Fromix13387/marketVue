@@ -42,7 +42,7 @@ async function registration() {
 
 <template>
   <Modal>
-      <div class="registration">
+      <div class="registration" @keyup.enter="registration">
           <h2>Регистрация</h2>
           <div>
               <div> <input v-model="username" placeholder="Имя пользователя" type="text"></div>
@@ -51,7 +51,7 @@ async function registration() {
               <div><input v-model="password" placeholder="Пароль" type="password"></div>
               <div><input v-model="password_confirm" placeholder="Подтверждение пароля" type="password"></div>
           </div>
-        <Button  @click="registration">Зарегестрироваться</Button>
+        <Button   @click="registration">Зарегестрироваться</Button>
           <p @click="visibleModal = 'authorization'"  class="auth">Войти</p>
       </div>
     <Message :visible="visible"  :text="text" :type="type"/>

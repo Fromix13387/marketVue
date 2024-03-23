@@ -34,14 +34,14 @@ async function authorization() {
 
 <template>
     <Modal>
-        <div class="authorization">
+        <div class="authorization"  @keyup.enter="authorization">
             <h2>Авторизация</h2>
             <div>
                 <input v-model="username" placeholder="Имя пользователя" type="text">
                 <input v-model="password" placeholder="Пароль" type="password">
             </div>
 
-            <div class="sign"><Button @click="authorization" >Войти</Button></div>
+            <div class="sign"><Button @click="authorization">Войти</Button></div>
             <p @click="visibleModal = 'registration'"  class="reg">Регистрация</p>
         </div>
         <Message :visible="visible" :text="text" :type="type"/>
