@@ -1,6 +1,6 @@
 <script setup>
 
-import Modal from "./Modal.vue";
+import Modal from "./modal/Modal.vue";
 import Button from "./Button.vue";
 import {ref} from "vue";
 import {Fetch} from "../api/Fetch.js";

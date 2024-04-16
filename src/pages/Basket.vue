@@ -19,10 +19,10 @@ const checkConfirm = () => {
   // Сделать подтверждение и чек после покупки
 }
 const date = ref(new Date().toLocaleString())
-const products = ref(filterObject(basket.value.basket))
+const products = ref(filterObject(basket.basket))
 watchEffect(() => {
-  products.value = filterObject(basket.value.basket)
-}, [basket.value.basket])
+  products.value = filterObject(basket.basket)
+}, [basket.basket])
 </script>
 
 <template>
@@ -34,6 +34,7 @@ watchEffect(() => {
     <div class="product" v-for="(product, index) in products">
      <div class="bl2 bl">
        <p>#{{index+1}}</p>
+
        <img :src="'src/assets/product/'+product.image" alt="">
        <div class="description">
          <h4>{{product.nameProduct}}</h4>

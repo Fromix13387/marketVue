@@ -1,18 +1,7 @@
 <script setup>
 
 import Header from "./components/Header.vue";
-import {watchEffect} from "vue";
-import {Fetch} from "./api/Fetch.js";
-import {User} from "./main.js";
 
-const checkAuth = async () => {
-  const res = await Fetch({method: 'checkAuth'})
-  if (res.token) {
-    localStorage.setItem('token', res.token)
-    User.value = {...res, auth: true}
-  }
-}
-watchEffect(checkAuth, [])
 </script>
 
 <template>

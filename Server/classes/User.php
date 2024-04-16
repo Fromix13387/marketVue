@@ -18,13 +18,13 @@ class User
     }
     public function registration($data): array
     {
-        if (count($this->getUser($data['username'])) !== 0) return CustomError::errorUsername($data['username']);
+        if ($this->getUser($data['username'])) return CustomError::errorUsername($data['username']);
         else if (count($this->checkEmail($data['email'])) !== 0) return CustomError::errorEmail();
         $keyApp = require __DIR__ . "/../config/keyApp.php";
         $hash = password_hash($data['password'] . $keyApp, PASSWORD_BCRYPT);
         $answer = $this->db->queryAdd("INSERT INTO users (username, fullname, email, password) VALUES (?,?,?,?)", [$data['username'], $data['fullname'], $data['email'], $hash]);
         $_SESSION['login_login_username'] = $data['username'];
-        session_regenerate_id();
+
         return $answer ? [
             ...$this->getDataUser($data),
             'message' => 'Вы успешно зарегестрировались',
@@ -40,7 +40,7 @@ class User
         if ($user && password_verify($data['password'].$keyApp, $user['password'] ?? ''))
         {
             $_SESSION['login_username'] = $user['username'];
-            session_regenerate_id();
+            session_regenerate_id(true);
             return [
             'message' => 'Вы успешно вошли',
             'token' => $data['username']. '-'.session_id(),
@@ -49,6 +49,40 @@ class User
         }
 
         return CustomError::errorAuthorization();
+    }
+
+    function changeProfile($data, $username): array
+    {
+        $err = CustomError::errorValidation($_POST);
+        if ($err && $err['error_message'] != 'null') return $err;
+        if (!empty($data['password'])) {
+            if ($data['password'] !== $data['password_confirm']) return CustomError::errorPasswordConfirm();
+            else $this->changePassword($data['password'], $username);
+        }
+        $path = 'NULL';
+        if (isset($file['image'])) {
+            $file = $file['image'];
+            $path = $file['name'];
+            move_uploaded_file($file['tmp_name'], 'Sever/src/imageUser/'.$path);
+        }
+
+        $answer = $this->db->queryAdd('UPDATE users SET username = ?, fullname = ?,image = ?, email = ? WHERE username = ?', [$data['username'], $data['fullname'], $path, $data['email'], $username]);
+
+        $user = $this->getUser($data['username']);
+        $_SESSION['login_username'] = $data['username'];
+
+        return $answer ? [
+            ...$this->getDataUser($user),
+            'message' => 'Вы успешно изменили данные',
+            'token' => $data['username'] . '-' . session_id(),
+        ] : CustomError::errorUnknown();
+    }
+
+    function changePassword($newPassword, $username): bool
+    {
+        $keyApp = require __DIR__ . '/../config/keyApp.php';
+        $hash = password_hash($newPassword . $keyApp, PASSWORD_BCRYPT);
+        return $this->db->queryAdd('UPDATE users SET password = ? WHERE username = ?', [$hash, $username]);
     }
     function getDataUser($data): array
     {

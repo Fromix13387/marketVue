@@ -24,7 +24,7 @@ echo json_encode(isset($_POST['method']) ? main() : CustomError::errorMethodNotF
 
 function main(): false|array|string|null
 {
-    global $auth;
+    global $auth, $username;
     $method = $_POST['method'];
     $printer = new Printer(new Db);
     $user = new User(new Db);
@@ -40,15 +40,19 @@ function main(): false|array|string|null
     }
     else if ($method === 'registration') {
         if ($_POST['password'] !== $_POST['password_confirm']) return CustomError::errorPasswordConfirm();
-
         return CustomError::errorValidation($_POST) ??  $user->registration($_POST);
     }
     else if ($method === 'authorization') {
         return $user->authorization($_POST);
     }
+    else if ($method === 'changeProfile' && $auth) {
+
+        $_POST['phone'] = preg_replace('/[^0-9]/', '', str_replace('+7', '8',  $_POST['phone']));
+        return $user->changeProfile($_POST, $email);
+    }
     else if ($method === 'checkAuth' && $auth) {
         $data = $user->getUser($_SESSION['login_username']);
-        session_regenerate_id();
+        session_regenerate_id(true);
         return [...$user->getDataUser($data), 'token' => $data['username'].'-'.session_id()];
     }
     else if ($method === 'checkPassword' && $auth) {

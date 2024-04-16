@@ -1,20 +1,17 @@
 <script setup>
-import Registration from "./Registration.vue";
+import Registration from "./modal/Registration.vue";
 import {ref} from "vue";
-import Authorization from "./Authorization.vue";
+import Authorization from "./modal/Authorization.vue";
 import {RouterLink, useRoute, useRouter} from "vue-router";
 import {defaultUrl, User, visibleModal} from "../main.js";
-import ModalProfile from "./ModalProfile.vue";
-
-// const visibleRegistration = ref(false)
-// const visibleAuthorization = ref(false)
-
-
-
+import ModalProfile from "./modal/ModalProfile.vue";
+import Messages from "../assets/js/Messages.js";
+import ModalUsers from "./modal/ModalUsers.vue";
 const props = defineProps({
   ...RouterLink.props,
   inactiveClass: String
 })
+
 const user = ref({})
 const value = ref('')
 const route = useRoute()
@@ -22,15 +19,24 @@ const router = useRouter()
 
 const visibleProfile = ref(false)
 
+const modalUsers = ref(null)
 function change() {
   router.replace(`${route.path}?search=${value.value}`)
+}
+
+const closeModal = (event) => {
+  setTimeout(() => Messages.visibleModal = false, 200)
 }
 </script>
 <template>
     <div class='Header'>
-        <div :style="{width: route.path.includes('/Catalog') ?  'clamp(340px, 50%, 500px)' : 'fit_content'}" class="search">
+        <div :style="{width: route.path.includes('/Catalog') || route.path.includes('/Messages') ?  'clamp(340px, 50%, 500px)' : 'fit-content'}" class="search">
             <router-link to="/"><img src="/src/assets/icons/printer.png" alt=""/></router-link>
-            <input v-model="value" @input="change()" placeholder="Название товара" v-show="route.path.includes('/Catalog')" type="text">
+            <input v-model="value" @input="change()" placeholder="Название товара" v-if="route.path.includes('/Catalog')" type="text">
+          <div class="searchUsers" v-else-if="route.path.includes('/Messages')">
+            <input  v-model="value" @focusin="Messages.visibleModal = true; Messages.getUsers(value)" @focusout="closeModal" @input="Messages.getUsers(value)" placeholder="Введите имя пользователя"  type="text">
+            <ModalUsers ref="modalUsers"/>
+          </div>
         </div>
 
         <div class="nav">
@@ -40,12 +46,12 @@ function change() {
                 <router-link to='/Catalog'>Каталог</router-link>
                 <router-link to='/Contact'>Контакты</router-link>
             </div>
-            <div :class="[{active: visibleProfile},'user-menu']" v-if="User.auth" @click="visibleProfile = !visibleProfile">
+            <div :class="[{active: visibleProfile},'user-menu']" v-if="User.auth" @click ="visibleProfile = !visibleProfile">
               <img v-if="User.image" :src="defaultUrl+'src/imageUser/' + User.image" alt="">
               <img v-else :src="defaultUrl+'src/imageUser/default.png'" alt="">
 
               <Transition name="profile">
-                <ModalProfile @close="visibleProfile = false" v-show="visibleProfile"/>
+                <ModalProfile @click.stop.prevent @close="visibleProfile = false" v-show="visibleProfile"/>
               </Transition>
             </div>
             <div v-else>
@@ -69,10 +75,10 @@ function change() {
 
 //  Profile animation styles
 .profile-enter-active {
-  animation: modalProfile 1s;
+  animation: modalProfile 0.5s;
 }
 .profile-leave-active {
-  animation: modalProfile .6s reverse;
+  animation: modalProfile .4s reverse;
 }
 
 @keyframes modalProfile {
@@ -120,11 +126,15 @@ function change() {
             }
         }
     }
+  .searchUsers {
+    width: 100%;
+    position: relative;
+  }
     .search {
         display: flex;
         gap: 15px;
         align-items:  center;
-                > input {
+                input {
             min-width: 250px;
             padding: 5px 10px;
             font-size: 15px;

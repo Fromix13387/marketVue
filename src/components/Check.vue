@@ -2,7 +2,7 @@
 
 import basket from "../assets/js/Basket.js";
 import Button from "./Button.vue";
-import Modal from "./Modal.vue";
+import Modal from "./modal/Modal.vue";
 
 const props = defineProps({
   products: Object,

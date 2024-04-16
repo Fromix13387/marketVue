@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ac13bef12e8e91d7b5a200ac56f7f33f",
+    "content-hash": "092b3f51a1e08f6ec41e415d4ef39c36",
     "packages": [
         {
             "name": "siriusphp/validation",
@@ -65,7 +65,9 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-pdo": "*"
+    },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
 }

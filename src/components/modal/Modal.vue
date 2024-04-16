@@ -10,7 +10,7 @@
 
 
 <style scoped lang="scss">
-@import "../App";
+@import "../../App";
   .modal {
       position: fixed;
       bottom: 0;

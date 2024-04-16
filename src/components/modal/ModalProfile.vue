@@ -1,27 +1,33 @@
 <script setup>
 
-import {User} from "../main.js";
-import {Fetch} from "../api/Fetch.js";
+import {AdminPath, User} from "../../main.js";
+import {Fetch} from "../../api/Fetch.js";
+import {useRouter} from "vue-router";
 const emit = defineEmits(['close'])
 
-
+const router = useRouter()
 async function exit() {
   const res = await Fetch({method: 'exit'})
-  console.log(res)
-  if (res.answer === true) User.value = {auth: false}
+
+  if (res.answer === true) {
+    emit('close')
+    User.value = {auth: false}
+    if (AdminPath.includes(router.currentRoute.value.fullPath)) await router.push('/')
+  }
 
 }
 </script>
 
 <template>
-  <div @click.stop.prevent class="modalProfile">
+  <div class="modalProfile">
     <p class="username">{{User.username}}</p>
     <hr>
     <div class="profile-content">
 
-      <router-link @click="emit('close')" to="">Мой профиль</router-link>
-      <router-link @click="emit('close')" to="">Настройки профиля</router-link>
+      <router-link @click="emit('close')" to="/MyProfile">Мой профиль</router-link>
+      <router-link @click="emit('close')" to="/Messages">Сообщения</router-link>
       <router-link @click="emit('close')" to="/Basket">Корзина</router-link>
+      <router-link @click="emit('close')" to="">Настройки профиля</router-link>
       <router-link @click="emit('close')" to="">История покупок</router-link>
     </div>
     <hr>
@@ -32,7 +38,7 @@ async function exit() {
 </template>
 
 <style scoped lang="scss">
-@import "../App";
+@import "../../App";
 
   .modalProfile {
     cursor: auto;

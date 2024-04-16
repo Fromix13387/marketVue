@@ -1,10 +1,10 @@
 <script setup>
 import Modal from "./Modal.vue";
 import {ref, watchEffect} from "vue";
-import Message from "./Message.vue";
-import {Fetch} from "../api/Fetch.js";
-import {User, visibleModal} from "../main.js";
-import Button from "./Button.vue";
+import Message from "../Message.vue";
+import {Fetch} from "../../api/Fetch.js";
+import {User, visibleModal} from "../../main.js";
+import Button from "../Button.vue";
 const visible = ref(false)
 const username = ref('')
 const password = ref('')
@@ -49,7 +49,7 @@ async function authorization() {
 </template>
 
 <style scoped lang="scss">
-@import "../App";
+@import "../../App";
 
 .sign {
   width: 100%;
@@ -78,36 +78,7 @@ async function authorization() {
 
     }
     input {
-        height: 40px;
-        border-radius: 10px;
-        padding: 5px 15px;
-        background-color: #c9c8c8;
-        outline: none;
-        border: none;
-        transition: all 0.15s ease;
-        font-size: 15px;
-        &:focus {
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px #2365c2;
-        }
+        @include input;
     }
-    //button {
-    //    width: fit-content;
-    //    padding: 8px 35px;
-    //    background-color: $dopColor;
-    //    border: none;
-    //    color: white;
-    //    font-size: 15px;
-    //    border-radius: 10px;
-    //    transition: background-color 0.3s ease, box-shadow 0.05s ease;
-    //    cursor: pointer;
-    //    &:hover {
-    //        background-color: #f55050;
-    //    }
-    //    &:active {
-    //        box-shadow: 0 0 5px white;
-    //    }
-    //}
-
 }
 </style>

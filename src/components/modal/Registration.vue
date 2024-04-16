@@ -1,10 +1,10 @@
 <script setup>
 import Modal from "./Modal.vue";
 import {ref} from "vue";
-import Message from "./Message.vue";
-import {Fetch} from "../api/Fetch.js";
-import {User, visibleModal} from "../main.js";
-import Button from "./Button.vue";
+import Message from "../Message.vue";
+import {Fetch} from "../../api/Fetch.js";
+import {User, visibleModal} from "../../main.js";
+import Button from "../Button.vue";
 
 const username = ref('')
 const fullname = ref('')
@@ -34,6 +34,7 @@ async function registration() {
     if (res.error_code) return setVisible([res.error_message, 'error'])
     localStorage.setItem('token', res.token)
     User.value = {...res, auth: true}
+    visibleModal.value = ''
     setVisible([res.message, 'success'])
 }
 
@@ -62,7 +63,7 @@ async function registration() {
 
 
 <style scoped lang="scss">
-@import "../App";
+@import "../../App";
 .red {
   color: red
 }
@@ -103,21 +104,7 @@ async function registration() {
 
         }
         input {
-            width: 100%;
-            height: 40px;
-            border-radius: 10px;
-            padding: 5px 15px;
-            background-color: #c9c8c8;
-            outline: none;
-            border: none;
-            position: relative;
-            transition: all 0.15s ease;
-            font-size: 15px;
-
-            &:focus {
-                background-color: #ffffff;
-                box-shadow: 0 0 0 3px #2365c2;
-            }
+            @include input;
 
         }
     }

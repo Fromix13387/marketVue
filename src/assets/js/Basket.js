@@ -1,4 +1,4 @@
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 
 class Basket {
     basket = JSON.parse(localStorage.getItem('basket')) ?? []
@@ -32,6 +32,6 @@ class Basket {
 
     }
 }
-const basket = ref(new Basket())
+const basket = reactive(new Basket())
 
 export default basket
