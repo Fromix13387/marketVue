@@ -4,7 +4,7 @@ import {onMounted, reactive, ref, watchEffect} from "vue";
 import {Fetch} from "../api/Fetch.js";
 import Button from "../components/Button.vue";
 import {User, visibleModal} from "../main.js";
-import {HeFilledUiUserProfile} from "@kalimahapps/vue-icons";
+import { MdOutlinedPhotoCamera } from "@kalimahapps/vue-icons";
 
 const username = ref('')
 const fullname = ref('')
@@ -17,10 +17,11 @@ const img = ref('')
 const notice = reactive({text: '', type: 'error'})
 
 watchEffect(() => {
+  console.log(User)
   username.value = User.username
   fullname.value = User.fullname
   email.value = User.email
-  img.value = User.img
+  img.value = 'Server/src/imageUser/'+(User.image ?? 'default.png')
 })
 
 async function changeProfile() {
@@ -40,7 +41,7 @@ async function changeProfile() {
 
 
   localStorage.setItem('token', res.token)
-  User.value = res
+  for (const key in res) User[key] = res[key]
   User.auth = true
   notice.text = res.message;
   return notice.type = 'success'
@@ -57,29 +58,34 @@ const uploadFile = (event) => {
   }
   fileReader.readAsDataURL(event.target.files[0]);
 }
+
+const hoverPhoto = ref(false)
 </script>
 
 <template>
-<div class="myProfile ">
+<div class="myProfile">
   <h2>Мой профиль</h2>
   <div class="content-modal">
-    <img v-if="img" :src="'Server/src/imageUser/'+img" alt="">
-    <HeFilledUiUserProfile v-else/>
-   <div>
+    <div @mouseenter="hoverPhoto = true" @mouseleave="hoverPhoto = false" class="img">
+      <img  :src="img" alt="">
+      <MdOutlinedPhotoCamera class="icon" v-show="hoverPhoto"/>
+      <input class="file" @change="uploadFile" type="file"/>
+    </div>
+   <div class="data">
      <h3>Основные данные</h3>
      <p @click="notice.text = ''" :class="[{success: notice.type === 'success'}, 'notice']" v-if="notice.text !== ''">{{notice.text}}</p>
      <div class="form">
        <MaskInput :value="username"  mask="SSSSSSSSSSSSSSSSS" v-model= "username" type="text" placeholder="Ваш ник"/>
        <input v-model="fullname" type="text" placeholder="ФИО"/>
        <input  v-model="email" type="email" placeholder="Почта"/>
-       <input @change="uploadFile" type="file"/>
+
      </div>
      <h3>Смена пароля</h3>
      <div class="form">
        <input v-model="password" placeholder="Пароль" type="password">
        <input v-model="password_confirm" placeholder="Подтверждение пароля" type="password">
      </div>
-     <Button  @click="changeProfile" :disabled="first_name === '' || last_name === '' || phone === ''|| email === ''">Сохранить</Button>
+     <Button  @click="changeProfile" :disabled="username === '' || fullname === '' || email === ''">Сохранить</Button>
    </div>
   </div>
 </div>
@@ -95,18 +101,48 @@ const uploadFile = (event) => {
     gap: 25px;
 
     .content-modal {
-      gap: 15px;
+      justify-content: space-between;
       display: flex;
       flex-direction: row;
       width: 100%;
+      gap: 20px;
       align-items: start;
-      img {
-        max-width: 250px;
+
+      .img {
+        position: relative;
+        max-width: 340px;
+
         width: 40%;
-        object-fit: contain;
+        .icon {
+          cursor: pointer;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate3d(-50%, -50%, 0);
+          width: 50%;
+          height: 50%;
+          color: rgba(255, 255, 255, 0.71);
+        }
+        img {
+          width: 100%;
+          object-fit: contain;
+        }
+        .file {
+          cursor: pointer;
+
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          top: 0;
+          opacity: 0;
+        }
+
       }
-      > div {
-        width: 60%;
+      > div.data {
+        width: 70%;
         display: flex;
         flex-direction: column;
         gap: 15px;
@@ -143,14 +179,20 @@ const uploadFile = (event) => {
         }
       }
     }
-  @media (width < 580px) {
+  @media (width < 860px) {
     .myProfile {
-      .form {
-        input {
-          width: 100%;
+      width: 95%;
+    }
+  }
+  @media (width < 650px) {
+    .myProfile {
+      .content-modal {
+        flex-direction: column;
+        align-items: center;
+        > div  {
+          width: 100% !important;
         }
       }
     }
-
   }
 </style>

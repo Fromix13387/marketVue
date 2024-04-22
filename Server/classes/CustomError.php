@@ -69,7 +69,7 @@ class CustomError
             ->add('username', 'required', null )
             ->add('fullname', 'required | fullName', null)
             ->add('email', 'required | email', null)
-            ->add('password', 'required | MinLength(5)',null);
+            ->add('password', 'required | MinLength(5)',null, null, 'password');
         $validator->validate($data);
         $errors = [];
         foreach ($validator->getMessages() as $el) {
@@ -78,5 +78,12 @@ class CustomError
             }
         }
         return $errors;
+    }
+    public static function errorAdmin(): array
+    {
+        return [
+            'error_message' => 'Недостаточно прав для выполнение этого',
+            'error_code' => 'admin'
+        ];
     }
 }

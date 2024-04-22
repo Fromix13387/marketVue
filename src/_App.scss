@@ -29,6 +29,59 @@ $gray: rgba(185, 185, 185, 0.6);
     box-shadow: 0 0 0 1px #2365c2;
   }
 }
+@mixin table {
+  width: 100%;
+  overflow-x: scroll;
+  border: 3px solid  #cb5656;
+  &::-webkit-scrollbar-thumb {
+    background-color: #cb5656;    /* цвет бегунка */
+    border-radius: 20px;       /* округлось бегунка */
+  }
+  &::-webkit-scrollbar-track {
+    background: #cbcbcb;        /* цвет зоны отслеживания */
+  }
+  &::-webkit-scrollbar {
+    height: 3px;
+  }
+  table {
+    min-width: 1500px;
+    border-collapse: collapse;
+    text-align: center;
+    th {
+      max-width: 80px;
+    }
+    th, td {
+      font-size: 15px;
+      color: #cb5656 ;
+      border-bottom: 1px solid white;
+      padding: 10px 5px;
+    }
+    .button {
+      > button {
+        font-size: 20px;
+        padding: 5px 10px;
+        &.red {
+          background: #d94e4e;
+          &:hover {
+            background: #a83939;
+          }
+        }
+      }
+    }
+  }
+}
+@mixin scrollModal {
+  &::-webkit-scrollbar-thumb {
+    background-color: #255996;    /* цвет бегунка */
+    border-radius: 20px;       /* округлось бегунка */
+  }
+  &::-webkit-scrollbar-track {
+    background: rgba(9, 9, 9, 0.3);        /* цвет зоны отслеживания */
+  }
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+}
 .reg,.auth { // стили для кнопок перехода
   text-align: center;
   cursor: pointer;

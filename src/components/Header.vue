@@ -158,6 +158,8 @@ const closeModal = (event) => {
     position: relative;
     img {
       width: 40px;
+      aspect-ratio: 1/1;
+      border-radius: 50%;
     }
     gap: 5px !important;
 

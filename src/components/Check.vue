@@ -55,6 +55,10 @@ const props = defineProps({
 .Check {
   color: #eeeeee;
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
   h3 {
 
     padding: 5px  0;
@@ -64,13 +68,19 @@ const props = defineProps({
   .new {
     color: greenyellow;
   }
+  button {
+    margin-top: 10px;
+  }
 }
   .products {
+    @include scrollModal;
     display: flex;
+    width: 90vw;
+    max-width: 500px;
     flex-direction: column;
     gap: 10px;
     padding: 15px 10px;
-    max-height: 300px;
+    max-height: 400px;
     overflow-y: scroll;
     .product {
       background-color: rgba(255, 255, 255, 0.08);

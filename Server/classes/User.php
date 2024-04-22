@@ -9,8 +9,17 @@ class User
     }
     public function getUser($username): false|array
     {
-        return $this->db->query("SELECT * FROM users WHERE username = ?", [$username])->fetch();
+        return $this->db->query("SELECT *,  users.id as id FROM users WHERE username = ?", [$username])->fetch();
     }
+    public function deleteUser($id): bool
+    {
+        return $this->db->queryAdd("DELETE FROM users WHERE id = ?", [$id]);
+    }
+    public function getUsers(): false|array
+    {
+        return $this->db->query("SELECT *, users.id as id FROM users JOIN roles ON roles.id = users.role")->fetchAll();
+    }
+
 
     public function checkEmail($email): false|array
     {
@@ -51,7 +60,7 @@ class User
         return CustomError::errorAuthorization();
     }
 
-    function changeProfile($data, $username): array
+    function changeProfile($data, $file,$username): array
     {
         $err = CustomError::errorValidation($_POST);
         if ($err && $err['error_message'] != 'null') return $err;
@@ -59,11 +68,11 @@ class User
             if ($data['password'] !== $data['password_confirm']) return CustomError::errorPasswordConfirm();
             else $this->changePassword($data['password'], $username);
         }
-        $path = 'NULL';
+        $path = null;
         if (isset($file['image'])) {
             $file = $file['image'];
             $path = $file['name'];
-            move_uploaded_file($file['tmp_name'], 'Sever/src/imageUser/'.$path);
+            move_uploaded_file($file['tmp_name'], 'src/imageUser/'.$path);
         }
 
         $answer = $this->db->queryAdd('UPDATE users SET username = ?, fullname = ?,image = ?, email = ? WHERE username = ?', [$data['username'], $data['fullname'], $path, $data['email'], $username]);
@@ -93,6 +102,20 @@ class User
             'image' => $data['image'] ?? null,
             'role' => $data['role'] ?? null
         ];
+    }
+
+    function saveOrder($username, $product_id, $count): bool
+    {
+        return $this->db->queryAdd("INSERT INTO orders (count, user_id, product_id) VALUES (?, (SELECT id FROM users WHERE username = ?), ?)", [$count, $username, $product_id]);
+    }
+    function getOrderHistory($username): false|array
+    {
+        return $this->db->query("SELECT statuses.nameStatus as status, products.nameProduct as product, products.description, products.image , orders.created_at, orders.count, products.price FROM orders 
+            JOIN statuses ON orders.status_id = statuses.id
+            JOIN users ON users.id = orders.user_id
+            JOIN products ON products.id = orders.product_id
+            WHERE users.username = ?
+            ", [$username])->fetchAll();
     }
 
 }

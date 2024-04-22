@@ -33,7 +33,8 @@ async function registration() {
     })
     if (res.error_code) return setVisible([res.error_message, 'error'])
     localStorage.setItem('token', res.token)
-    User.value = {...res, auth: true}
+    for (const key in res) User[key] = res[key]
+    User.auth = true
     visibleModal.value = ''
     setVisible([res.message, 'success'])
 }
@@ -74,6 +75,8 @@ async function registration() {
       width: 100%;
     }
     .registration {
+      width: 95vw;
+      max-width: 450px;
         padding: 35px;
         position: relative;
         display: flex;

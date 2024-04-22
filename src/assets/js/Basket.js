@@ -31,6 +31,10 @@ class Basket {
     clear() {
 
     }
+    filterObject = () => {
+        const table = {}
+        return this.basket.filter(({id}) =>!table[id] && (table[id] = 1)).sort((a,b) => a.id - b.id);
+    }
 }
 const basket = reactive(new Basket())
 

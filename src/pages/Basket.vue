@@ -7,21 +7,18 @@ import Confirm from "../components/Confirm.vue";
 import Check from "../components/Check.vue";
 
 const confirm = ref(false)
-const check = ref(true)
+const check = ref(false)
 // const router = useRouter()
-const filterObject = (arr) => {
-  const table = {}
-  return arr.filter(({id}) =>!table[id] && (table[id] = 1)).sort((a,b) => a.id - b.id);
-}
+
 const checkConfirm = () => {
   confirm.value = false
   check.value = true
   // Сделать подтверждение и чек после покупки
 }
 const date = ref(new Date().toLocaleString())
-const products = ref(filterObject(basket.basket))
+const products = ref(basket.filterObject())
 watchEffect(() => {
-  products.value = filterObject(basket.basket)
+  products.value = basket.filterObject()
 }, [basket.basket])
 </script>
 

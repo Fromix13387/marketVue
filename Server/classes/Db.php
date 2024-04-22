@@ -20,7 +20,10 @@ class Db
             echo 'Ошибка соединения: ' . $exception->getMessage();
         }
     }
-
+    public function getRole(): bool|array
+    {
+        return $this->query('SELECT * FROM roles')->fetchAll();
+    }
     public function query($query, $params = []): PDOStatement
     {
         $this->stmt = $this->connection->prepare($query);

@@ -11,7 +11,7 @@ async function exit() {
 
   if (res.answer === true) {
     emit('close')
-    User.value = {auth: false}
+    User.auth = false
     if (AdminPath.includes(router.currentRoute.value.fullPath)) await router.push('/')
   }
 
@@ -23,16 +23,15 @@ async function exit() {
     <p class="username">{{User.username}}</p>
     <hr>
     <div class="profile-content">
-
       <router-link @click="emit('close')" to="/MyProfile">Мой профиль</router-link>
       <router-link @click="emit('close')" to="/Messages">Сообщения</router-link>
       <router-link @click="emit('close')" to="/Basket">Корзина</router-link>
-      <router-link @click="emit('close')" to="">Настройки профиля</router-link>
-      <router-link @click="emit('close')" to="">История покупок</router-link>
+      <router-link v-if="User.role >= 2" @click="emit('close')" to="/AdminPanel/users">Админка</router-link>
+      <router-link @click="emit('close')" to="/HistoryBuy">История покупок</router-link>
     </div>
     <hr>
     <div class="profile-content">
-      <router-link to="" @click="exit">Выйти</router-link>
+      <router-link class="exit" to="" @click="exit">Выйти</router-link>
     </div>
   </div>
 </template>
@@ -52,7 +51,6 @@ async function exit() {
     top: 55px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     .username {
       text-transform: uppercase;
       padding: 5px 0;
@@ -83,6 +81,9 @@ async function exit() {
       width: 100%;
       border: none;
       border-bottom: 2px solid $dopColor;
+    }
+    .exit {
+      margin: auto;
     }
 
   }

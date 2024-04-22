@@ -2,7 +2,7 @@
 return [
     'host' => 'localhost',
     'port' => '3306',
-    'dbname' => 'demo2022',
+    'dbname' => 'PrintersSite',
     'charset' => 'utf8',
     'user' => 'root',
     'pass' => ''

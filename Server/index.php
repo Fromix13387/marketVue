@@ -26,8 +26,9 @@ function main(): false|array|string|null
 {
     global $auth, $username;
     $method = $_POST['method'];
-    $printer = new Printer(new Db);
-    $user = new User(new Db);
+    $db = new Db;
+    $printer = new Printer($db);
+    $user = new User($db);
 
     if ($method === 'getPrinters') {
         $search = $_POST['search'] !== 'undefined' ? $_POST['search'] : '';
@@ -38,6 +39,13 @@ function main(): false|array|string|null
     else if ($method === 'getPrinter') {
         return $printer->getPrinter($_POST['id']);
     }
+    else if ($method === 'saveOrder' && $auth) {
+        return $user->saveOrder($username,$_POST['id_product'], $_POST['count']);
+    }
+    else if ($method === 'getOrderHistory' && $auth) {
+        return $user->getOrderHistory($username);
+    }
+    else if ($method === 'getRole') return $db->getRole();
     else if ($method === 'registration') {
         if ($_POST['password'] !== $_POST['password_confirm']) return CustomError::errorPasswordConfirm();
         return CustomError::errorValidation($_POST) ??  $user->registration($_POST);
@@ -46,9 +54,7 @@ function main(): false|array|string|null
         return $user->authorization($_POST);
     }
     else if ($method === 'changeProfile' && $auth) {
-
-        $_POST['phone'] = preg_replace('/[^0-9]/', '', str_replace('+7', '8',  $_POST['phone']));
-        return $user->changeProfile($_POST, $email);
+        return $user->changeProfile($_POST, $_FILES,$username);
     }
     else if ($method === 'checkAuth' && $auth) {
         $data = $user->getUser($_SESSION['login_username']);
@@ -64,6 +70,20 @@ function main(): false|array|string|null
     else if ($method === 'exit') {
         if (!$auth) return CustomError::errorExit();
         return ['answer' => session_destroy()];
+    }
+    else if ((
+            $method === 'getUsers' ||
+            $method === 'deleteUser' ||
+            $method === 'editUser'
+        ) && $auth) {
+        $userData = $user->getUser($username);
+        if ($userData['role'] <= 1) return CustomError::errorAdmin();
+        return match ($method) {
+            'getUsers' => $user->getUsers(),
+            'deleteUser' => $user->deleteUser($_POST['id']),
+            'editUser' => $user->editUser($_POST),
+            default => CustomError::errorUnknown(),
+        };
     }
     else {
         return CustomError::errorUnknown();

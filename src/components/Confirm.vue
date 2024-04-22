@@ -5,6 +5,7 @@ import Button from "./Button.vue";
 import {ref} from "vue";
 import {Fetch} from "../api/Fetch.js";
 import Message from "./Message.vue";
+import basket from "../assets/js/Basket.js";
 
 const password = ref('')
 const props = defineProps({
@@ -15,6 +16,10 @@ const text = ref({text: '', type: ''})
 const confirm = async () => {
   const res = await Fetch({method: 'checkPassword', password:password.value})
   if (res.password) {
+    basket.filterObject().map( async el =>  {
+      const res = await Fetch({method: 'saveOrder', id_product: el.id, count: basket.getCountProduct(el.id)
+    })})
+
     text.value = {text: 'Успешно', type: 'success'}
     visibleMessage.value = true
     props.checkConfirm()

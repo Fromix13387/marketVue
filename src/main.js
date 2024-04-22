@@ -1,4 +1,4 @@
-import {createApp, ref} from 'vue'
+import {createApp, reactive, ref} from 'vue'
 import * as VueRouter from 'vue-router'
 import './style.css'
 import App from './App.vue'
@@ -11,11 +11,15 @@ import Basket from "./pages/Basket.vue";
 import Messages from "./pages/Messages.vue";
 import MyProfile from "./pages/MyProfile.vue";
 import {Fetch} from "./api/Fetch.js";
-
+import AdminPanel from "./pages/AdminPanel/AdminPanel.vue";
+import Users from "./pages/AdminPanel/Users.vue";
+import "vue-select/dist/vue-select.css";
+import './global/_variables.css'
+import HistoryBuy from "./pages/HistoryBuy.vue";
 export const defaultUrl = "http://localhost:4000/"
-export const User = ref({auth: false})
+export const User = reactive({auth: false})
 export const visibleModal = ref('')
-export const AdminPath = ['/Basket', '/Messages', '/MyProfile']
+export const AdminPath = ['/Basket', '/Messages', '/MyProfile', '/HistoryBuy']
 
 
 const checkAuth = async () => {
@@ -26,7 +30,7 @@ const checkAuth = async () => {
         for (const key in res) {
             User[key] = res[key]
         }
-        User.value.auth = true
+        User.auth = true
         return true
     }
     return false
@@ -66,6 +70,31 @@ const router = VueRouter.createRouter({
         {
             path: '/MyProfile',
             component: MyProfile,
+        },
+        {
+            path: '/HistoryBuy',
+            component: HistoryBuy,
+        },
+        {
+            path: '/AdminPanel',
+            component: AdminPanel,
+            children: [
+                // {
+                //     path: 'booking',
+                //     component: Booking
+                // },
+                {
+                    path: 'users',
+                    component: Users
+                }]
+                // {
+                //     path: 'quests',
+                //     component: Quests
+                // },
+                // {
+                //     path: 'messages',
+                //     component: Messages
+                // }]
         }
     ]
 })
