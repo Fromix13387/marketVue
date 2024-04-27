@@ -13,9 +13,10 @@ client.onmessage = function (event) {
 
     if (data.user?.token) {
         localStorage.setItem('token', data.user.token)
-        User.value = {...data.user, auth: true}
+        for (const key in data) User[key] = data[key]
+        User.auth = true
     }
-    else User.value.auth = false
+    else User.auth = false
     console.log(data)
 
     if (data.method === 'getUsers') Messages.users = data.data

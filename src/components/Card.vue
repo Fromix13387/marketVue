@@ -13,7 +13,7 @@ import Counter from "./Counter.vue";
 <template>
   <div :class="[{active: User.auth && !!basket.getCountProduct(props.data.id)}, 'card']">
 
-      <img :src="'src/assets/product/' + props.data.image" alt="">
+      <img :src="'Server/src/product/' + props.data.image" alt="">
       <div>
           <div>
               <router-link :to="'/printer/'+ props.data.id"><h4>{{props.data.nameProduct}}</h4></router-link>

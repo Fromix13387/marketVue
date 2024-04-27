@@ -96,6 +96,7 @@ watchEffect(() => {
       grid-auto-rows: auto;
       gap: 15px;
       justify-content: center;
+    margin-bottom: 50px;
   }
   @media (width < 1050px) {
       .cards {

@@ -3,12 +3,12 @@
         --vs-colors--lightest: #8a8a8a;
         --vs-colors--light: rgba(138, 138, 138, 0.84);
         --vs-colors--dark: #cac2d5;
-        --vs-colors--darkest: rgba(0, 0, 0, 0.15);
+        --vs-colors--darkest: rgba(152, 152, 152, 0.15);
 
         /* Search Input */
-        --vs-search-input-color: var(--vs-colors--light);
+        --vs-search-input-color: #2f2f2f;
         --vs-search-input-bg: rgb(255, 255, 255);
-        --vs-search-input-placeholder-color: inherit;
+        --vs-search-input-placeholder-color: #2f2f2f;
 
         /* Font */
         --vs-font-size: 1rem;
@@ -24,27 +24,27 @@
         --vs-border-color: var(--vs-colors--lightest);
         --vs-border-width: 1px;
         --vs-border-style: solid;
-        --vs-border-radius: 4px;
+        --vs-border-radius: 10px;
 
         /* Actions: house the component controls */
         --vs-actions-padding: 4px 6px 0 3px;
         /*--vs-actions-padding: 4px 6px 0 3px;*/
 
         /* Component Controls: Clear, Open Indicator */
-        --vs-controls-color: var(--vs-colors--light);
+        --vs-controls-color: black;
         --vs-controls-size: 1;
         --vs-controls--deselect-text-shadow: 0 1px 0 #fff;
 
         /* Selected */
         --vs-selected-bg: #f0f0f0;
-        --vs-selected-color: var(--vs-colors--dark);
+        --vs-selected-color: black;
         --vs-selected-border-color: var(--vs-border-color);
         --vs-selected-border-style: var(--vs-border-style);
         --vs-selected-border-width: var(--vs-border-width);
 
         /* Dropdown */
-        --vs-dropdown-bg: #505050;
-        --vs-dropdown-color: inherit;
+        --vs-dropdown-bg: #6d76a6;
+        --vs-dropdown-color: #383838;
         --vs-dropdown-z-index: 1000;
         --vs-dropdown-min-width: 160px;
         --vs-dropdown-max-height: 350px;
@@ -52,7 +52,7 @@
 
         /* Options */
         --vs-dropdown-option-bg: #000;
-        --vs-dropdown-option-color: var(--vs-dropdown-color);
+        --vs-dropdown-option-color: #afafaf;
         --vs-dropdown-option-padding: 3px 20px;
 
         /* Active State */
@@ -72,6 +72,13 @@
 }
 .vs__selected {
         padding: 0 8px !important;
+}
+.vs__dropdown-toggle {
+        background-color: #c9c8c8;
+        transition: background-color 0.4s ease;
+        &:focus-within {
+                background-color: #ffffff;
+        }
 }
 .vs__search::placeholder, .vs__selected {
         font-size: 14px !important;

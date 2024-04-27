@@ -24,7 +24,7 @@ async function exit() {
     <hr>
     <div class="profile-content">
       <router-link @click="emit('close')" to="/MyProfile">Мой профиль</router-link>
-      <router-link @click="emit('close')" to="/Messages">Сообщения</router-link>
+<!--      <router-link @click="emit('close')" to="/Messages">Сообщения</router-link>-->
       <router-link @click="emit('close')" to="/Basket">Корзина</router-link>
       <router-link v-if="User.role >= 2" @click="emit('close')" to="/AdminPanel/users">Админка</router-link>
       <router-link @click="emit('close')" to="/HistoryBuy">История покупок</router-link>

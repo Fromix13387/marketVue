@@ -43,10 +43,10 @@ watchEffect(() => {
     <div class="embla"  >
         <div class="embla__viewport" ref="emblaRef">
             <div class="embla__container">
-                <div :style="{...(tweenValues.length && { opacity: tweenValues[0]+ 0.5 })}" class="embla__slide"><img src="/src/assets/product/1.png" alt=""/></div>
-                <div :style="{...(tweenValues.length && { opacity: tweenValues[1] + 0.5 })}" class="embla__slide"><img src="/src/assets/product/2.png" alt=""/></div>
-                <div :style="{...(tweenValues.length && { opacity: tweenValues[2] + 0.5 })}" class="embla__slide"><img src="/src/assets/product/3.png" alt=""/></div>
-                <div :style="{...(tweenValues.length && { opacity: tweenValues[3] + 0.5 })}" class="embla__slide"><img src="/src/assets/product/4.png" alt=""/></div>
+                <div :style="{...(tweenValues.length && { opacity: tweenValues[0]+ 0.5 })}" class="embla__slide"><img src="/Server/src/product/1.png" alt=""/></div>
+                <div :style="{...(tweenValues.length && { opacity: tweenValues[1] + 0.5 })}" class="embla__slide"><img src="/Server/src/product/2.png" alt=""/></div>
+                <div :style="{...(tweenValues.length && { opacity: tweenValues[2] + 0.5 })}" class="embla__slide"><img src="/Server/src/product/3.png" alt=""/></div>
+                <div :style="{...(tweenValues.length && { opacity: tweenValues[3] + 0.5 })}" class="embla__slide"><img src="/Server/src/product/4.png" alt=""/></div>
             </div>
         </div>
     </div>

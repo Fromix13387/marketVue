@@ -15,6 +15,16 @@ class User
     {
         return $this->db->queryAdd("DELETE FROM users WHERE id = ?", [$id]);
     }
+    public function editUser($data, $file): bool
+    {
+        if (isset($file['image'])) {
+            $file = $file['image'];
+            $path = $file['name'];
+            move_uploaded_file($file['tmp_name'], 'src/imageUser/' . $path);
+            return $this->db->queryAdd('UPDATE users SET fullname = ? ,email = ?, role = ?, image = ? WHERE id = ?', [$data['fullname'], $data['email'], $data['role'], $path, $data['id']]);
+        }
+        return $this->db->queryAdd('UPDATE users SET fullname = ? ,email = ?, role = ?, image = image WHERE id = ?', [$data['fullname'], $data['email'], $data['role'], $data['id']]);
+    }
     public function getUsers(): false|array
     {
         return $this->db->query("SELECT *, users.id as id FROM users JOIN roles ON roles.id = users.role")->fetchAll();
@@ -107,6 +117,14 @@ class User
     function saveOrder($username, $product_id, $count): bool
     {
         return $this->db->queryAdd("INSERT INTO orders (count, user_id, product_id) VALUES (?, (SELECT id FROM users WHERE username = ?), ?)", [$count, $username, $product_id]);
+    }
+    function sendReviews($username, $title, $value): bool
+    {
+        return $this->db->queryAdd("INSERT INTO reviews (title, value, user_id) VALUES (?, ?, (SELECT id FROM users WHERE username = ?))", [$title, $value, $username]);
+    }
+    function getReviews(): false|array
+    {
+        return $this->db->query("SELECT reviews.title, reviews.value, reviews.date, users.username, users.image FROM reviews JOIN users ON users.id = reviews.user_id ORDER BY date DESC ")->fetchAll();
     }
     function getOrderHistory($username): false|array
     {

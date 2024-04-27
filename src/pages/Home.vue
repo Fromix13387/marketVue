@@ -3,7 +3,7 @@
 
 </script>
 <template>
-    <img width="100%" src="../assets/product/Backdesktop.avif" alt="">
+    <img width="100%" src="../../Server/src/product/Backdesktop.avif" alt="">
     <div class="home">
         <h1>Добро пожаловать</h1>
 
@@ -11,10 +11,10 @@
         </p>
 
         <div class="blockImg">
-           <router-link to="catalog"> <img src="/src/assets/product/1.png" alt=""/></router-link>
-           <router-link to="catalog"> <img src="/src/assets/product/2.png" alt=""/></router-link>
-           <router-link to="catalog"> <img src="/src/assets/product/3.png" alt=""/></router-link>
-           <router-link to="catalog"> <img src="/src/assets/product/4.png" alt=""/></router-link>
+           <router-link to="catalog"> <img src="/Server/src/product/1.png" alt=""/></router-link>
+           <router-link to="catalog"> <img src="/Server/src/product/2.png" alt=""/></router-link>
+           <router-link to="catalog"> <img src="/Server/src/product/3.png" alt=""/></router-link>
+           <router-link to="catalog"> <img src="/Server/src/product/4.png" alt=""/></router-link>
         </div>
     </div>
   <!--  <Slider/>-->

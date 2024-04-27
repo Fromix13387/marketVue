@@ -15,7 +15,7 @@ onMounted(async() => {
 
     <div class="products">
       <div v-for="el of data">
-        <img :src="'src/assets/product/' + el.image" alt="">
+        <img :src="'Server/src/product/' + el.image" alt="">
         <div>
           <div class="top">
             <h2>{{el.product}}</h2>
@@ -38,11 +38,7 @@ onMounted(async() => {
 <style scoped lang="scss">
 @import "../App";
   .HistoryBuy {
-    width: 80%;
-    margin-top: 35px;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
+    @include main;
     .products {
       display: flex;
       flex-direction: column;
@@ -52,6 +48,7 @@ onMounted(async() => {
         border-radius: 5px;
         padding: 15px;
         display: flex;
+
         gap: 15px;
         .top {
           display: flex;
@@ -71,6 +68,7 @@ onMounted(async() => {
           font-size: 20px ;
         }
         > div  {
+          width: 100%;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -87,11 +85,6 @@ onMounted(async() => {
           object-fit: contain;
         }
       }
-    }
-  }
-  @media (width < 1300px) {
-    .HistoryBuy {
-      width: 95%;
     }
   }
   @media (width < 690px) {

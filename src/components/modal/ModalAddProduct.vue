@@ -1,84 +1,113 @@
 <script setup>
 
 import Modal from "./Modal.vue";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import Button from "../Button.vue";
 import {Fetch} from "../../api/Fetch.js";
-
-const name = ref('')
-const short_intro = ref('')
-const age_limit = ref('')
-const human_count = ref('')
-const time = ref('')
-const level_difficulty = ref('')
+import vSelect from "vue-select";
+const nameProduct = ref('')
 const price = ref('')
-const descriptions = ref('')
+const description = ref('')
+const releaseYear = ref('')
+const model = ref('')
+const count = ref('')
 const image = ref('')
+const img = ref('')
 
-const emits = defineEmits(['addQuest'])
+const emits = defineEmits(['addProduct'])
+
 const uploadFile = (event) => {
   image.value = event.target.files[0]
+  if (!FileReader) {
+    alert('FileReader не поддерживается — облом');
+    return;
+  }
+  const fileReader = new FileReader();
+  fileReader.onload = function() {
+    img.value = fileReader.result;
+    console.log(img.value)
+  }
+  fileReader.readAsDataURL(event.target.files[0]);
 }
+const categories = ref([])
+const countries = ref([])
+const selected_category = ref({id: '', nameCategory: ''})
+const selected_country= ref({id: '', nameCountry: ''})
+
+onMounted( async() => {
+  categories.value = await Fetch({method: 'getCategories'})
+  countries.value = await Fetch({method: 'getCountries'})
+
+})
+
 const notice = ref('')
-const addQuest = async () => {
+const addProduct = async () => {
   const data = {
-    method: 'addQuest',
-    name: name.value,
-    short_intro: short_intro.value,
-    age_limit: age_limit.value,
-    human_count: human_count.value,
-    time: time.value,
-    level_difficulty: level_difficulty.value,
+    method: 'addPrinter',
+    nameProduct: nameProduct.value,
     price: price.value,
-    descriptions: descriptions.value,
+    description: description.value,
+    category_id: selected_category.value?.id,
+    country_id: selected_country.value?.id,
+    releaseYear: releaseYear.value,
+    model: model.value,
+    count: count.value,
     image: image.value
   }
   const res = await Fetch(data)
   if (+res) {
-    notice.value = {text: 'Квест успешно добавлен', status: 'success'}
-    emits('addQuest', {...data, image: image.value.name ?? '28.jpg'})
+    notice.value = {text: 'Принтер успешно добавлен', status: 'success'}
+    emits('addProduct', {...data, image: image.value.name ?? '1.png'})
+  } else {
+    notice.value = {text: res.error_message, status: 'error'}
+
   }
 }
 
 </script>
 
 <template>
-  <Modal class="ModalQuest" :notice="notice" @closeNotice="notice=''">
-    <div  class="ModalAddQuest">
-      <h2>Добавление квеста</h2>
-      <input v-model="name" type="text" placeholder="Название"/>
-      <input v-model="short_intro" type="text" placeholder="Краткое описание"/>
-      <input v-model="age_limit" type="number" placeholder="Возрастное ограничение"/>
-      <input v-model="human_count" type="text" placeholder="Количество возможных игроков"/>
-      <input v-model="time" type="text" placeholder="Время нужное для прохождения"/>
-      <input v-model="level_difficulty" type="number" placeholder="Уровень сложности"/>
-      <input v-model="price" type="number" placeholder="Строимость квеста"/>
-      <textarea rows="5" v-model="descriptions" type="text" placeholder="Описание"/>
+  <Modal class="ModalProduct">
+    <div  class="ModalAddProduct">
+      <h3 align="center">Добавление товара</h3>
+      <p align="center" :class="notice.status" v-if="notice.text !== ''" @click="notice.text = ''">{{notice.text}}</p>
+      <img :src="img" alt="" v-if="img !== ''">
+      <input v-model="nameProduct" type="text" placeholder="Название"/>
+      <input v-model="price" type="number" placeholder="Цена"/>
+      <input v-model="releaseYear" type="number" placeholder="Год выпуска"/>
+      <input v-model="model" type="text" placeholder="Модель"/>
+      <input v-model="count" type="number" placeholder="Количество"/>
+      <vSelect v-model="selected_category" placeholder="Ничего не выбрано"  :options="categories" label="nameCategory" code="id">
+        <template #no-options='option'>Значение не найдено</template>
+        <template #selected-option="{ id, nameCategory}">{{nameCategory}}</template>
+      </vSelect>
+      <vSelect v-model="selected_country" placeholder="Ничего не выбрано"  :options="countries" label="nameCountry" code="id">
+        <template #no-options='option'>Значение не найдено</template>
+        <template #selected-option="{ id, nameCountry}">{{nameCountry}}</template>
+      </vSelect>
+      <textarea rows="10" v-model="description" type="text" placeholder="Описание"/>
       <input @change="uploadFile" type="file" placeholder="Описание"/>
-      <Button @click="addQuest">Добавить</Button>
+      <Button @click="addProduct">Добавить</Button>
     </div>
 
   </Modal>
 </template>
 <style lang="scss">
 @import "../../App";
-.ModalQuest .content-modal {
-  @include scrollModal;
-  max-width: 500px;
-  min-height: 200px;
-  max-height: 800px;
-  padding: 25px 15px;
-  overflow-y: scroll;
 
-}
 </style>
 <style scoped lang="scss">
 @import "../../App";
-.ModalAddQuest {
-  padding: 20px 10px 0 10px;
+.ModalAddProduct {
+  padding: 20px ;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
+  width: 500px;
+  img {
+    margin: auto;
+    width: 150px;
+  }
   h2 {
     text-align: center;
   }
@@ -91,5 +120,16 @@ const addQuest = async () => {
   button {
     width: 200px;
   }
+}
+@media (width < 500px) {
+  .ModalAddProduct {
+    width: 100%;
+  }
+}
+.success {
+  color: lawngreen;
+}
+.error {
+  color: red;
 }
 </style>

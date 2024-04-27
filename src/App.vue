@@ -1,6 +1,7 @@
 <script setup>
 
 import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
 
 </script>
 
@@ -9,11 +10,7 @@ import Header from "./components/Header.vue";
     <div class="main" >
         <router-view></router-view>
     </div>
-    <div class="footer">
-        <p>+7 (495) 123-45-67</p>
-        <p>г. Челябинск, ул. Гагарина, д. 7</p>
-        <p>info@mail.ru</p>
-    </div>
+    <Footer/>
 </template>
 
 <style scoped lang="scss">
@@ -25,15 +22,5 @@ import Header from "./components/Header.vue";
     align-items: center;
     min-height: 85vh;
 }
-.footer {
-  flex-wrap: wrap;
-  gap: 15px;
-  padding: 15px;
-    color: white;
-    background-color: $bgColor;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    min-height: 70px;
-}
+
 </style>

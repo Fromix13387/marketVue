@@ -20,9 +20,41 @@ class Db
             echo 'Ошибка соединения: ' . $exception->getMessage();
         }
     }
-    public function getRole(): bool|array
+    public function getCountries(): bool|array
+    {
+        return $this->query('SELECT * FROM countries')->fetchAll();
+    }
+    public function getRoles(): bool|array
     {
         return $this->query('SELECT * FROM roles')->fetchAll();
+    }
+    public function getCategories(): bool|array
+    {
+        return $this->query('SELECT * FROM categories')->fetchAll();
+    }
+    public function getCountry($id): bool|array
+    {
+        return $this->query('SELECT * FROM countries WHERE id = ?', [$id])->fetchAll();
+    }
+    public function getCategory($id): bool|array
+    {
+        return $this->query('SELECT * FROM categories WHERE id = ?', [$id])->fetchAll();
+    }
+    public function getStatuses(): bool|array
+    {
+        return $this->query('SELECT * FROM statuses')->fetchAll();
+    }
+    public function getOrders(): bool|array
+    {
+        return $this->query('SELECT *, orders.id as order_id,orders.count as count  FROM orders JOIN statuses s on s.id = orders.status_id JOIN users u on u.id = orders.user_id JOIN products p on p.id = orders.product_id')->fetchAll();
+    }
+    public function changeStatus($id_status, $id_user, $id_order): bool|array
+    {
+        return $this->query('UPDATE orders SET status_id = ? WHERE user_id = ? and id = ?', [$id_status, $id_user, $id_order])->fetchAll();
+    }
+    public function deleteOrder($id): bool|array
+    {
+        return $this->queryAdd('DELETE FROM orders WHERE id = ?', [$id]);
     }
     public function query($query, $params = []): PDOStatement
     {

@@ -15,8 +15,6 @@ onMounted(() => {
     <div class="tabs">
       <router-link to="/AdminPanel/users">Все пользователи</router-link>
       <router-link to="/AdminPanel/products">Все продукты</router-link>
-      <router-link to="/AdminPanel/countries">Все страны</router-link>
-      <router-link to="/AdminPanel/categories">Все категории</router-link>
       <router-link to="/AdminPanel/orders">Заявки</router-link>
     </div>
     <div class="data">
@@ -30,14 +28,13 @@ onMounted(() => {
 <style scoped lang="scss">
 @import "../../App";
   .AdminPanel {
-    display: flex;
-    gap: 15px;
-    width: 95%;
-    margin-top: 25px;
+    @include main;
+    flex-direction: row;
     .tabs {
       background-color: $bgColor;
       border-radius: 15px;
       padding: 25px;
+      height: fit-content;
       display: flex;
       flex-direction: column;
 

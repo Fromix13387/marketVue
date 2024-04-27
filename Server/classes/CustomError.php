@@ -86,4 +86,18 @@ class CustomError
             'error_code' => 'admin'
         ];
     }
+    public static function errorCategory(): array
+    {
+        return [
+            'error_message' => 'Такой категории не существует',
+            'error_code' => 'category'
+        ];
+    }
+    public static function errorCountry(): array
+    {
+        return [
+            'error_message' => 'Такой страны не существует',
+            'error_code' => 'country'
+        ];
+    }
 }

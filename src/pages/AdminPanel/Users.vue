@@ -11,14 +11,14 @@ const data = ref([])
 
 const modalEditUser = ref(false)
 const EditUser = ref({})
-const changeUser = (fullname, email, image,{id, name}) => {
+const changeUser = (fullname, email, image,{id, name_role}) => {
   data.value = data.value.map(user => {
     if (user.id === EditUser.value.id) {
       user.fullname = fullname
       user.email = email
       user.image = image
       user.role = id
-      user.name_role = name
+      user.name_role = name_role
     }
     return user
   })
@@ -66,7 +66,7 @@ onMounted( async() => {
       </table>
     </div>
 
-    <transition name="modalBooking" duration="350">
+    <transition name="modal" duration="350">
       <ModalEditUser @close="modalEditUser = false" v-if="modalEditUser" :user="EditUser" :change-user="changeUser"/>
     </transition>
 

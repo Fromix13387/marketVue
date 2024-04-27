@@ -16,6 +16,10 @@ import Users from "./pages/AdminPanel/Users.vue";
 import "vue-select/dist/vue-select.css";
 import './global/_variables.css'
 import HistoryBuy from "./pages/HistoryBuy.vue";
+import Reviews from "./pages/Reviews.vue";
+import Rules from "./pages/Rules.vue";
+import Products from "./pages/AdminPanel/Products.vue";
+import Orders from "./pages/AdminPanel/Orders.vue";
 export const defaultUrl = "http://localhost:4000/"
 export const User = reactive({auth: false})
 export const visibleModal = ref('')
@@ -47,12 +51,20 @@ const router = VueRouter.createRouter({
             component: About
         },
         {
+            path: '/Rules',
+            component: Rules
+        },
+        {
             path: '/Catalog',
             component: Catalog,
         },
         {
             path: '/Contact',
             component: Contact
+        },
+        {
+            path: '/Reviews',
+            component: Reviews
         },
         {
             path: '/printer/:id',
@@ -79,22 +91,19 @@ const router = VueRouter.createRouter({
             path: '/AdminPanel',
             component: AdminPanel,
             children: [
-                // {
-                //     path: 'booking',
-                //     component: Booking
-                // },
+                {
+                    path: 'products',
+                    component: Products
+                },
                 {
                     path: 'users',
                     component: Users
-                }]
-                // {
-                //     path: 'quests',
-                //     component: Quests
-                // },
-                // {
-                //     path: 'messages',
-                //     component: Messages
-                // }]
+                },
+                {
+                    path: 'orders',
+                    component: Orders
+                }
+            ]
         }
     ]
 })

@@ -12,6 +12,7 @@ wss.on('connection', (ws, req) => {
     ws.on('error', console.error)
     ws.on('message',async function (data) {
         data = JSON.parse(data)
+        console.log(data)
         const {method, username, user_token} = data
         let message = {}
         const checkUser = await checkAuth(user_token)

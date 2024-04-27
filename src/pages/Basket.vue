@@ -32,7 +32,7 @@ watchEffect(() => {
      <div class="bl2 bl">
        <p>#{{index+1}}</p>
 
-       <img :src="'src/assets/product/'+product.image" alt="">
+       <img :src="'Server/src/product/'+product.image" alt="">
        <div class="description">
          <h4>{{product.nameProduct}}</h4>
          <p>Модель: {{product.model}}</p>

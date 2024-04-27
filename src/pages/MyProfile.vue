@@ -113,32 +113,7 @@ const hoverPhoto = ref(false)
         max-width: 340px;
 
         width: 40%;
-        .icon {
-          cursor: pointer;
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate3d(-50%, -50%, 0);
-          width: 50%;
-          height: 50%;
-          color: rgba(255, 255, 255, 0.71);
-        }
-        img {
-          width: 100%;
-          object-fit: contain;
-        }
-        .file {
-          cursor: pointer;
-
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          top: 0;
-          opacity: 0;
-        }
+        @include profileImg;
 
       }
       > div.data {

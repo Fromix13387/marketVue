@@ -53,7 +53,7 @@ import SliderAbout from "../components/SliderAbout.vue";
 @import "https://fonts.fontstorage.com/import/abeezee.css";
 @import "../App";
 .aboutImg {
-    background: url("src/assets/product/about.avif") no-repeat;
+    background: url("../../Server/src/product/about.avif") no-repeat;
     background-size: contain;
     height: 0;
     padding-top:32%;
@@ -135,7 +135,7 @@ import SliderAbout from "../components/SliderAbout.vue";
 
 @media (width < 500px) {
     .aboutImg {
-        background: url("src/assets/product/aboutmobile.avif") no-repeat;
+        background: url("../../Server/src/product/aboutmobile.avif") no-repeat;
         background-size: 100% 100%;
     }
     .about {

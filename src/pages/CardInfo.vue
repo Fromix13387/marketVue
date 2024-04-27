@@ -20,7 +20,7 @@ const data = ref({})
 
 <template>
   <div v-if="data.id" class="CardInfo">
-      <img :src="'src/assets/product/' + data.image" alt="">
+      <img :src="'Server/src/product/' + data.image" alt="">
 
       <div>
           <div>

@@ -1,7 +1,7 @@
 export default {
     host: 'localhost',
     user: 'root',
-    database: 'demo2022',
+    database: 'printerssite',
     password: '',
     port: 3306
 }

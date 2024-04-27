@@ -13,25 +13,25 @@ class Messages {
         client.send(JSON.stringify({
             method: 'getUsers',
             username,
-            user_token: User.value.token
+            user_token: User.token
         }))
     }
     getMessages(receiver) {
         client.send(JSON.stringify({
             method: 'getMessages',
-            sender_name: User.value.username,
+            sender_name: User.username,
             receiver,
-            user_token: User.value.token
+            user_token: User.token
         }))
     }
     send_message(message) {
         console.log(message)
         client.send(JSON.stringify({
             method: 'sendMessage',
-            sender_id: User.value.id,
+            sender_id: User.id,
             receiver_id: this.receiver.id,
             message,
-            user_token: User.value.token
+            user_token: User.token
         }))
     }
     changeChat(user, messages) {

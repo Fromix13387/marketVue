@@ -45,6 +45,7 @@ const closeModal = (event) => {
                 <router-link to="/About">О нас</router-link>
                 <router-link to='/Catalog'>Каталог</router-link>
                 <router-link to='/Contact'>Контакты</router-link>
+                <router-link to='/Reviews'>Отзывы</router-link>
             </div>
             <div :class="[{active: visibleProfile},'user-menu']" v-if="User.auth" @click ="visibleProfile = !visibleProfile">
               <img v-if="User.image" :src="defaultUrl+'src/imageUser/' + User.image" alt="">
